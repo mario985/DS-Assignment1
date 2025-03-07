@@ -16,7 +16,7 @@ public:
         Size = n;
         data = new T[n];
         for (int i = 0 ; i<Size;i++) {
-            cout<<"Enter data ["<<i<<"] : ";
+            cout<<"Enter data ["<<i+1<<"] : ";
             cin>>data[i];
         }
 
