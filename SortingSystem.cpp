@@ -30,7 +30,7 @@ void SortingSystem<T>::showMenu() {
         cin >> sortingChoice;
         switch (sortingChoice) {
             case 1:
-                // insertionSort();
+                //  insertionSort();
                     break;
             case 2:
                 //selectionSort();
@@ -57,7 +57,7 @@ void SortingSystem<T>::showMenu() {
                 //bucketSort();
                     break;
             default:
-                cout << "Invalid choice! Please enter a number between 1 and 9.\n";
+                 cout << "Invalid choice! Please enter a number between 1 and 9.\n";
         }
         if (sortingChoice>=1 and sortingChoice<=9) {
             break;

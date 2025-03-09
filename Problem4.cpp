@@ -51,8 +51,8 @@ int main(void) {
         cout<<"Do you want to sort another dataset? (y/n): ";
         char c;
         cin>>c;
-        if (tolower(c)=='n') {
-            cout << "\nEEEEE  X   X  III  TTTTT   TTTTT  III  N   N   GGG  "<<endl;
+         if (tolower(c)=='n') {
+          cout << "\nEEEEE  X   X  III  TTTTT   TTTTT  III  N   N   GGG  "<<endl;
             cout << "E      X   X   I     T       T     I   NN  N  G     "<<endl;
             cout << "EEE     X X    I     T       T     I   N N N  G  GG "<<endl;
             cout << "E        X     I     T       T     I   N  NN  G   G "<<endl;
