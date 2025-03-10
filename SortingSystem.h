@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <cmath>
 #include <algorithm>
+#include<chrono>
 using namespace std;
 template <typename T>
 class SortingSystem {
@@ -20,7 +21,7 @@ public:
     SortingSystem(int n);
     ~SortingSystem();
     //void insertionSort();
-    //void selectionSort();
+    void selectionSort();
     //void bubbleSort();
     //void shellSort();
     //void mergeSort(int left, int right);
@@ -30,8 +31,8 @@ public:
     //void countSort();
     //void radixSort();
     //void bucketSort();
-    //void displayData();
-    //void measureSortTime(void (*sortFunc)());
+    void displayData();
+    void measureSortTime(void (SortingSystem::*sortFunc)());
     void showMenu();
 };
 #endif

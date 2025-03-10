@@ -1,4 +1,6 @@
 #include "SortingSystem.h"
+#include<chrono>
+#include <iomanip>
 template<typename T>
 SortingSystem<T>::SortingSystem(int n) {
     Size = n;
@@ -7,6 +9,47 @@ SortingSystem<T>::SortingSystem(int n) {
         cout<<"Enter data ["<<i+1<<"] : ";
         cin>>data[i];
     }
+}
+template<typename T>
+void SortingSystem<T>::measureSortTime(void (SortingSystem::*sortFunc)()) {
+    auto start_time = std::chrono::high_resolution_clock::now();
+    (this->*sortFunc)();
+    auto end_time = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+    cout << fixed << setprecision(6);
+    cout  << "Sorting Time: " << duration.count() /1000000.0 << " seconds\n";
+}
+
+template<typename T>
+void SortingSystem<T>::displayData(){
+    cout << "[";
+    for(int i =0 ;  i < Size ; i++){
+        cout << data[i];
+        if(i < Size - 1) cout << ", ";
+    }
+    cout << "]"<< endl;
+}
+template<typename T>
+void SortingSystem<T>:: selectionSort(){
+    cout << "Sorting using Selection Sort..." << endl;
+    cout << "Initial Data: ";
+    displayData();
+    for(int i = 0 ; i < Size-1 ; i++){
+        int least = i;
+        for(int j = i + 1 ; j < Size ; j++){
+            if(data[j] < data[least]){
+                least = j;
+            }
+        }
+        if(least != i) {
+            swap(data[i], data[least]);
+        }
+        cout << "Iteration " << i + 1 << ": ";
+        displayData();
+    }
+    cout << endl;
+    cout << "Sorted Data : " << endl;
+    displayData();
 }
 template<typename T>
 SortingSystem<T>::~SortingSystem() {
@@ -33,7 +76,7 @@ void SortingSystem<T>::showMenu() {
                 //  insertionSort();
                     break;
             case 2:
-                //selectionSort();
+                measureSortTime(&SortingSystem::selectionSort);
                     break;
             case 3:
                 //bubbleSort();
