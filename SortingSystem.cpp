@@ -109,7 +109,30 @@ void SortingSystem<T>:: shellSort() {
     cout << "Sorted Data : " << endl;
     displayData();
 }
+template<typename T>
+void SortingSystem<T>:: insertionSort(){
+    cout << "Sorting using insertion Sort..." << endl;
+    cout << "Initial Data: ";
+    displayData();
 
+    for(int i = 0 ; i < Size-1 ;i++){
+        tmp=data[i];
+        for (int j = i; j > 0 && tmp<data[j-1]; j--){
+            // comparing each element with all the previous one
+               data[j]=data[j-1];
+            // shift all element untill they are arranged in the correct order
+            }
+        data[j]=tmp;
+        }
+        cout << "Iteration " << i + 1 << ": ";
+        displayData();
+    }
+
+    cout << endl;
+    cout << "Sorted Data : " << endl;
+    displayData();
+
+}
 template<typename T>
 SortingSystem<T>::~SortingSystem() {
     delete [] data;
