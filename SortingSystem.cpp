@@ -109,12 +109,11 @@ void SortingSystem<T>:: shellSort() {
     cout << "Sorted Data : " << endl;
     displayData();
 }
+
 template<typename T>
 SortingSystem<T>::~SortingSystem() {
     delete [] data;
 }
-
-
 
 template<typename T>
 void SortingSystem<T>::showMenu() {
