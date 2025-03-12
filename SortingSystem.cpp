@@ -51,6 +51,31 @@ void SortingSystem<T>:: selectionSort(){
     cout << "Sorted Data : " << endl;
     displayData();
 }
+
+template<typename T>
+void SortingSystem<T>:: bubbleSort(){
+    cout << "Sorting using Bubble Sort..." << endl;
+    cout << "Initial Data: ";
+    displayData();
+
+    for(int i = 0 ; i < Size-1 ;i++){
+        // Comparing each element with the adjacent one from right to left
+        for (int j = Size-1; j >i; j--){
+            if(data[j] < data[j-1]){
+                swap(data[j], data[j-1]);
+            }
+        }
+        cout << "Iteration " << i + 1 << ": ";
+        displayData();
+    }
+
+    cout << endl;
+    cout << "Sorted Data : " << endl;
+    displayData();
+
+}
+
+
 template<typename T>
 void SortingSystem<T>:: shellSort() {
     cout << "Sorting using Shell Sort..." << endl;
@@ -88,6 +113,9 @@ template<typename T>
 SortingSystem<T>::~SortingSystem() {
     delete [] data;
 }
+
+
+
 template<typename T>
 void SortingSystem<T>::showMenu() {
     while (true) {
@@ -112,7 +140,7 @@ void SortingSystem<T>::showMenu() {
                 measureSortTime(&SortingSystem::selectionSort);
                     break;
             case 3:
-                //bubbleSort();
+                measureSortTime(&SortingSystem::bubbleSort);
                     break;
             case 4:
                 measureSortTime(&SortingSystem::shellSort);

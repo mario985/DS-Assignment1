@@ -22,7 +22,7 @@ public:
     ~SortingSystem();
     //void insertionSort();
     void selectionSort();
-    //void bubbleSort();
+    void bubbleSort();
     void shellSort();
     //void mergeSort(int left, int right);
     //void merge(int left, int mid, int right);
