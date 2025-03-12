@@ -23,7 +23,7 @@ public:
     //void insertionSort();
     void selectionSort();
     //void bubbleSort();
-    //void shellSort();
+    void shellSort();
     //void mergeSort(int left, int right);
     //void merge(int left, int mid, int right);
     //void quickSort(int left, int right);

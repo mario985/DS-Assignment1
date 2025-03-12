@@ -52,6 +52,39 @@ void SortingSystem<T>:: selectionSort(){
     displayData();
 }
 template<typename T>
+void SortingSystem<T>:: shellSort() {
+    cout << "Sorting using Shell Sort..." << endl;
+    cout << "Initial Data: ";
+    displayData();
+    int pass = 1;
+    // Outer loop for the gap reduction to half at each iteration
+    for (int gap = Size / 2; gap > 0; gap /= 2) {
+        cout << "At pass " << pass << " (The gap = " << gap << ')' << endl;
+        for (int i = gap; i < Size; ++i) {
+            // Store the original value
+            T temp = data[i];
+            int j;
+            // A loop that compares 2 numbers of different indices and checks their arrangement
+            for (j = i; j >= gap && temp < data[j - gap]; j -= gap) {
+                // If they need to be swapped
+                // Put the greater value in the needed position
+                data[j] = data[j - gap];
+            }
+            // After decrementing the index i to be equal the position needed for the smaller value
+            // Was stored in temp, will add it
+            data[j] = temp;
+            displayData();
+        }
+        cout << "Data at the end of pass " << pass << ": ";
+        displayData();
+        cout << "-------------------------------------------" << endl;
+        ++pass;
+    }
+    cout << endl;
+    cout << "Sorted Data : " << endl;
+    displayData();
+}
+template<typename T>
 SortingSystem<T>::~SortingSystem() {
     delete [] data;
 }
@@ -82,7 +115,7 @@ void SortingSystem<T>::showMenu() {
                 //bubbleSort();
                     break;
             case 4:
-                //shellSort();
+                measureSortTime(&SortingSystem::shellSort);
                     break;
             case 5:
                 //mergeSort(0, size - 1);
