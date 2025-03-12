@@ -14,13 +14,14 @@ template <typename T>
 class SortingSystem {
 private:
      T* data;
+     T* tmp;
      int Size;
 
 public:
 
     SortingSystem(int n);
     ~SortingSystem();
-    //void insertionSort();
+    void insertionSort();
     void selectionSort();
     void bubbleSort();
     void shellSort();
