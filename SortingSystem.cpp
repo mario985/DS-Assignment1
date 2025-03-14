@@ -113,19 +113,21 @@ void SortingSystem<T>::insertionSort(){
     cout << "Initial Data: ";
     displayData();
 
-    for(int i = 0 ; i < Size-1 ;i++){
+    for(int i = 1 ; i < Size ;i++){
         tmp=data[i];
-        for (int j = i; j > 0 && tmp<data[j-1]; j--){
+        int j=i;
+        while( j > 0 && tmp<data[j-1]){
             // comparing each element with all the previous one
                data[j]=data[j-1];
+                j--;
             // shift all element untill they are arranged in the correct order
             }
         data[j]=tmp;
-        }
-        cout << "Iteration " << i + 1 << ": ";
+        
+        cout << "Iteration " << i << ": ";
         displayData();
     
-
+    }
     cout << endl;
     cout << "Sorted Data : " << endl;
     displayData();
