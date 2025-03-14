@@ -16,7 +16,7 @@ template <typename T>
 class SortingSystem {
 private:
      T* data;
-     T* tmp;
+     T tmp;
      int Size;
      vector<int>dataInt;
 
