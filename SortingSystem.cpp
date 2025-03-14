@@ -1,7 +1,4 @@
 #include "SortingSystem.h"
-#include<chrono>
-#include <iomanip>
-#include <concepts>
 template<typename T>
 SortingSystem<T>::SortingSystem(int n) {
     Size = n;
@@ -110,6 +107,7 @@ void SortingSystem<T>:: shellSort() {
     cout << "Sorted Data : " << endl;
     displayData();
 }
+template<typename T>
 void SortingSystem<T>::insertionSort(){
     cout << "Sorting using insertion Sort..." << endl;
     cout << "Initial Data: ";

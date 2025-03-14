@@ -9,6 +9,8 @@
 #include <cmath>
 #include <algorithm>
 #include<chrono>
+#include <iomanip>
+#include <concepts>
 using namespace std;
 template <typename T>
 class SortingSystem {
@@ -22,7 +24,7 @@ public:
 
     SortingSystem(int n);
     ~SortingSystem();
-    //void insertionSort();
+    void insertionSort();
     void selectionSort();
     void bubbleSort();
     void shellSort();
