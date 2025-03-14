@@ -5,7 +5,7 @@ SortingSystem<T>::SortingSystem(int n) {
     data = new T[n];
     for (int i = 0 ; i<Size;i++) {
         cout<<"Enter data ["<<i+1<<"] : ";
-        cin>>data[i];
+        cin >> data[i];
     }
 }
 template<typename T>
@@ -113,16 +113,16 @@ void SortingSystem<T>::insertionSort(){
     cout << "Initial Data: ";
     displayData();
 
-    for(int i = 1 ; i < Size ;i++){
-        tmp=data[i];
-        int j=i;
-        while( j > 0 && tmp<data[j-1]){
-            // comparing each element with all the previous one
-               data[j]=data[j-1];
+    for(int i = 1; i < Size; i++){
+        tmp = data[i];
+        int j = i;
+        while(j > 0 && tmp < data[j-1]){
+            // comparing each element with all the previous ones
+               data[j] = data[j-1];
                 j--;
-            // shift all element untill they are arranged in the correct order
+            // shift all elements until they are arranged in the correct order
             }
-        data[j]=tmp;
+        data[j] = tmp;
         
         cout << "Iteration " << i << ": ";
         displayData();
