@@ -217,7 +217,7 @@ void SortingSystem<T>::showMenu() {
         cin >> sortingChoice;
         switch (sortingChoice) {
             case 1:
-                //measureSortTime(&SortingSystem::insertionSort);
+                measureSortTime(&SortingSystem::insertionSort);
                     break;
             case 2:
                 measureSortTime(&SortingSystem::selectionSort);
