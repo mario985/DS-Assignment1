@@ -16,12 +16,13 @@ private:
      T* data;
      T* tmp;
      int Size;
+     vector<int>dataInt;
 
 public:
 
     SortingSystem(int n);
     ~SortingSystem();
-    void insertionSort();
+    //void insertionSort();
     void selectionSort();
     void bubbleSort();
     void shellSort();
@@ -29,7 +30,8 @@ public:
     //void merge(int left, int mid, int right);
     //void quickSort(int left, int right);
     //int partition(int low, int high);
-    //void countSort();
+    template <typename U = T, typename std::enable_if<std::is_integral<U>::value, bool>::type = true>
+    void countSort();
     //void radixSort();
     //void bucketSort();
     void displayData();

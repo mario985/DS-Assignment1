@@ -1,6 +1,7 @@
 #include "SortingSystem.h"
 #include<chrono>
 #include <iomanip>
+#include <concepts>
 template<typename T>
 SortingSystem<T>::SortingSystem(int n) {
     Size = n;
@@ -109,8 +110,7 @@ void SortingSystem<T>:: shellSort() {
     cout << "Sorted Data : " << endl;
     displayData();
 }
-template<typename T>
-void SortingSystem<T>:: insertionSort(){
+void SortingSystem<T>::insertionSort(){
     cout << "Sorting using insertion Sort..." << endl;
     cout << "Initial Data: ";
     displayData();
@@ -126,13 +126,74 @@ void SortingSystem<T>:: insertionSort(){
         }
         cout << "Iteration " << i + 1 << ": ";
         displayData();
-    }
+    
 
     cout << endl;
     cout << "Sorted Data : " << endl;
     displayData();
-
 }
+template <typename T>
+template <typename U, typename enable_if<is_integral<U>::value, bool>::type>
+void SortingSystem<T>::countSort() {
+    int maxNumber = 0;
+
+    for (int i = 0; i < Size; i++) {
+        if (data[i] > maxNumber) maxNumber = data[i];
+    }
+    cout << "Step 1: Find Max → " << maxNumber << endl << endl;
+
+    vector<int> CountSorted(maxNumber + 1, 0);
+    for (int i = 0; i < Size; i++) {
+        CountSorted[data[i]]++;
+    }
+
+    cout << "Step 2: Count Occurrences" << endl;
+    cout << "Index:  ";
+    for (int i = 0; i <= maxNumber; i++) {
+        if (CountSorted[i] > 0) cout << setw(3) << i << " ";
+    }
+    cout << endl << "Count:  ";
+    for (int i = 0; i <= maxNumber; i++) {
+        if (CountSorted[i] > 0) cout << setw(3) << CountSorted[i] << " ";
+    }
+    cout << endl << endl;
+
+    for (int i = 1; i <= maxNumber; i++) {
+        CountSorted[i] += CountSorted[i - 1];
+    }
+
+    cout << "Step 3: Cumulative Sum" << endl;
+    cout << "Index:  ";
+    for (int i = 0; i <= maxNumber; i++) {
+        if (CountSorted[i] > 0) cout << setw(3) << i << " ";
+    }
+    cout << endl << "Count:  ";
+    for (int i = 0; i <= maxNumber; i++) {
+        if (CountSorted[i] > 0) cout << setw(3) << CountSorted[i] << " ";
+    }
+    cout << endl << endl;
+
+    vector<int> sortedData(Size);
+    cout << "Step 4: Placing Elements in Sorted Order" << endl;
+    for (int i = Size - 1; i >= 0; i--) {
+        sortedData[CountSorted[data[i]] - 1] = data[i];
+        CountSorted[data[i]]--;
+
+        cout << "Placed " << data[i] << " → ";
+        for (int num : sortedData) {
+            if (num == 0) cout << "_ ";
+            else cout << num << " ";
+        }
+        cout << endl;
+    }
+
+    for (int i = 0; i < Size; i++) {
+        data[i] = sortedData[i];
+    }
+    cout << "Final Sorted Array: " << endl;
+    displayData();
+}
+
 template<typename T>
 SortingSystem<T>::~SortingSystem() {
     delete [] data;
@@ -156,7 +217,7 @@ void SortingSystem<T>::showMenu() {
         cin >> sortingChoice;
         switch (sortingChoice) {
             case 1:
-                measureSortTime(&SortingSystem::insertionSort);
+                //measureSortTime(&SortingSystem::insertionSort);
                     break;
             case 2:
                 measureSortTime(&SortingSystem::selectionSort);
@@ -174,7 +235,13 @@ void SortingSystem<T>::showMenu() {
                 //quickSort(0, size - 1);
                     break;
             case 7:
-                //countSort();
+            if constexpr(is_integral<T>::value) {
+                measureSortTime(&SortingSystem::countSort);
+            }
+            else{
+                cout<<"CountSort only works for Integer numbers"<<endl;
+                sortingChoice = -1;
+            }
                     break;
             case 8:
                 //radixSort();
@@ -190,11 +257,11 @@ void SortingSystem<T>::showMenu() {
         }
     }
 }
-
 template class SortingSystem<int>;
 template class SortingSystem<float>;
 template class SortingSystem<double>;
 template class SortingSystem<string>;
+template class SortingSystem<char>;
 
 
 

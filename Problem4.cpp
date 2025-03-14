@@ -17,6 +17,7 @@ int main(void) {
             cout << "2 - Integer\n";
             cout << "3 - Double\n";
             cout << "4 - Float\n";
+            cout << "5 - Char\n";
             cout << "Choice: ";
             cin >> choice;
             switch (choice) {
@@ -37,6 +38,11 @@ int main(void) {
                 }
                 case 4: {
                     SortingSystem<float> sorter(size);
+                    sorter.showMenu();
+                    break;
+                }
+                case 5: {
+                    SortingSystem<char>sorter(size);
                     sorter.showMenu();
                     break;
                 }
