@@ -4,7 +4,8 @@ Node::Node(int val) {
     next = NULL;
 }
 SortedLinkedList::SortedLinkedList() {
-    head =nullptr;
+    head = NULL;
+    count = 0;
 }
 
 void SortedLinkedList::insert(int value) {
@@ -27,6 +28,7 @@ void SortedLinkedList::insert(int value) {
         current->next = newnode;
         newnode->next = next;
     }
+    count++;
 }
 void SortedLinkedList::remove(int index) {
    if (head==NULL) {
@@ -37,6 +39,9 @@ void SortedLinkedList::remove(int index) {
     if (index == 0) {
         delete head;
         head = current;
+        return;
+    }
+    else if(index>count){
         return;
     }
     else {
@@ -55,6 +60,9 @@ int SortedLinkedList::operator[](int index) {
     Node*current = head;
     if (head==NULL) {
         return 0;
+    }
+    else if(index>count){
+        return 0 ;
     }
     while (index>=1 && current) {
         current = current->next;

@@ -265,4 +265,3 @@ template class SortingSystem<char>;
 
 
 
-
