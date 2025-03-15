@@ -73,7 +73,6 @@ void SortingSystem<T>:: bubbleSort(){
 
 }
 
-
 template<typename T>
 void SortingSystem<T>:: shellSort() {
     cout << "Sorting using Shell Sort..." << endl;
@@ -107,6 +106,7 @@ void SortingSystem<T>:: shellSort() {
     cout << "Sorted Data : " << endl;
     displayData();
 }
+
 template<typename T>
 void SortingSystem<T>::insertionSort(){
     T tmp;
@@ -130,6 +130,55 @@ void SortingSystem<T>::insertionSort(){
     }
     cout << endl;
     cout << "Sorted Data : " << endl;
+    displayData();
+}
+
+template<typename T>
+// The partition function of quick sort
+int SortingSystem<T>::partition(int start, int end){
+    // Choose the pivot as the first element
+    T pivot = data[start];
+    cout << "\nThe pivot is: " << pivot << endl;
+    int i = start;
+    for (int j = start + 1; j <= end; ++j) {
+        // If current element is smaller than pivot
+        if(data[j] < pivot){
+            i++;
+            swap(data[i], data[j]);
+        }
+        cout << "Iteration " << j << ": ";
+        displayData();
+    }
+    // Add the pivot in its correct position
+    // What's before is less than the pivot
+    // What's after is greater than the pivot
+    swap(data[i], data[start]);
+    cout << "After placing the pivot in its position: ";
+    displayData();
+    cout << "---------------------------------";
+    // return the index of the pivot
+    return i;
+}
+template<typename T>
+// The recursive function
+void SortingSystem<T>::quickSort(int start, int end){
+    // Base case: If start >= end, no need to sort
+    if(start < end){
+        int pivot_ind = partition(start, end);
+        quickSort(start, pivot_ind - 1 );
+        quickSort(pivot_ind + 1, end);
+    }
+}
+template<typename T>
+// Function to use the quick sort since measureSortTime requires a function without parameters
+void SortingSystem<T>::apply_qs(){
+    cout << "Sorting using Quick Sort..." << endl;
+    cout << "Initial Data: ";
+    displayData();
+
+    quickSort(0, Size - 1);
+
+    cout << endl << "Sorted Data : " << endl;
     displayData();
 }
 template <typename T>
@@ -193,7 +242,6 @@ void SortingSystem<T>::countSort() {
     cout << "Final Sorted Array: " << endl;
     displayData();
 }
-
 template<typename T>
 SortingSystem<T>::~SortingSystem() {
     delete [] data;
@@ -232,7 +280,7 @@ void SortingSystem<T>::showMenu() {
                 //mergeSort(0, size - 1);
                     break;
             case 6:
-                //quickSort(0, size - 1);
+                measureSortTime(&SortingSystem::apply_qs);
                     break;
             case 7:
             if constexpr(is_integral<T>::value) {

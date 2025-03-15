@@ -28,8 +28,9 @@ public:
     void shellSort();
     //void mergeSort(int left, int right);
     //void merge(int left, int mid, int right);
-    //void quickSort(int left, int right);
-    //int partition(int low, int high);
+    void quickSort(int start, int end);
+    void apply_qs();
+    int partition(int start, int end);
     template <typename U = T, typename std::enable_if<std::is_integral<U>::value, bool>::type = true>
     void countSort();
     //void radixSort();
