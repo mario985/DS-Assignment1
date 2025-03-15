@@ -109,10 +109,10 @@ void SortingSystem<T>:: shellSort() {
 }
 template<typename T>
 void SortingSystem<T>::insertionSort(){
+    T tmp;
     cout << "Sorting using insertion Sort..." << endl;
     cout << "Initial Data: ";
     displayData();
-
     for(int i = 1; i < Size; i++){
         tmp = data[i];
         int j = i;
