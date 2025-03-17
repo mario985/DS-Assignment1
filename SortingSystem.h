@@ -26,8 +26,9 @@ public:
     void selectionSort();
     void bubbleSort();
     void shellSort();
-    //void mergeSort(int left, int right);
-    //void merge(int left, int mid, int right);
+    void mergeSort(int left, int right);
+    void merge(int left, int mid, int right);
+    void apply_ms();
     void quickSort(int start, int end);
     void apply_qs();
     int partition(int start, int end);
