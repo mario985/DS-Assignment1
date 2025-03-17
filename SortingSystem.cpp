@@ -133,6 +133,82 @@ void SortingSystem<T>::insertionSort(){
     displayData();
 }
 
+int h = 0;
+template<typename T>
+void SortingSystem<T>::merge(int left, int mid, int right) {
+    
+    int l = mid - left + 1;
+    int r = right - mid;
+
+    vector<T> leftArray(l);
+    vector<T> rightArray(r);
+
+    for (int i = 0; i < l; i++) {
+        leftArray[i] = data[left + i];
+    }
+    for (int j = 0; j < r; j++) {
+        rightArray[j] = data[mid + 1 + j];
+    }
+
+    int i = 0, j = 0, k = left;
+    int iteration = 1;
+    h++;
+    cout <<"\n" << f << "_ Merging Subarrays : " << endl;
+    
+    displayData();
+
+    while (i < l && j < r) {
+        if (leftArray[i] <= rightArray[j]) {
+            data[k] = leftArray[i];
+            i++;
+        }
+        else {
+            data[k] = rightArray[j];
+            j++;
+        }
+        k++;
+        cout << "Iteration " << iteration++ << ": ";
+        displayData();
+    }
+
+    while (i < l) {
+        data[k] = leftArray[i];
+        i++;
+        k++;
+        cout << "Iteration " << iteration++ << ": ";
+        displayData();
+    }
+
+    while (j < r) {
+        data[k] = rightArray[j];
+        j++;
+        k++;
+        cout << "Iteration " << iteration++ << ": ";
+        displayData();
+    }
+}
+
+template<typename T>
+void SortingSystem<T>::mergeSort(int left, int right) {
+    if (left < right) {
+        int mid = left + (right - left) / 2;
+        mergeSort(left, mid);
+        mergeSort(mid + 1, right);
+        merge(left, mid, right);
+    }
+}
+
+template<typename T>
+void SortingSystem<T>::apply_ms() {
+    cout << "Sorting using Merge Sort..." << endl;
+    cout << "Initial Data: ";
+    displayData();
+    mergeSort(0, Size - 1);
+    cout << endl << " final Sorted Data : " << endl;
+    displayData();
+}
+
+
 template<typename T>
 // The partition function of quick sort
 int SortingSystem<T>::partition(int start, int end){
@@ -277,7 +353,7 @@ void SortingSystem<T>::showMenu() {
                 measureSortTime(&SortingSystem::shellSort);
                     break;
             case 5:
-                //mergeSort(0, size - 1);
+                measureSortTime(&SortingSystem::apply_ms);
                     break;
             case 6:
                 measureSortTime(&SortingSystem::apply_qs);
