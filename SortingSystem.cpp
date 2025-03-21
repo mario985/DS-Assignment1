@@ -32,7 +32,6 @@ SortingSystem<T>::SortingSystem(const string &filename) {
             (is_same<T, double>::value && type == "double") ||
             (is_same<T, string>::value && type == "string") ||
             (is_same<T, char>::value && type == "char")) {
-                cout<<type<<" "<<size<<endl;
             if(data){
                 delete[] data;
             }
@@ -49,15 +48,8 @@ SortingSystem<T>::SortingSystem(const string &filename) {
         file.ignore(1000, '\n'); 
     }
     T*dataCopy = new T[size];
-    for(int i = 0;i<size;i++){
-        cout<<data[i]<<" ";
-    }
-    cout<<endl;
     for(int i = 0 ;i<size;i++){
         dataCopy[i]=data[i];
-    }
-    for(int i = 0 ;i<size;i++){
-        cout<<data[i]<<endl;
     }
     for(int i = 1;i<=9;i++){
         sortingChoice = i;
