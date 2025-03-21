@@ -1,4 +1,5 @@
 #include "SortingSystem.h"
+
 template<typename T>
 SortingSystem<T>::SortingSystem(int n) {
     Size = n;
@@ -55,16 +56,25 @@ void SortingSystem<T>:: bubbleSort(){
     cout << "Sorting using Bubble Sort..." << endl;
     cout << "Initial Data: ";
     displayData();
+    bool swapsDone;
 
     for(int i = 0 ; i < Size-1 ;i++){
+        swapsDone = false;
+
         // Comparing each element with the adjacent one from right to left
         for (int j = Size-1; j >i; j--){
             if(data[j] < data[j-1]){
+                swapsDone = true;
                 swap(data[j], data[j-1]);
             }
         }
         cout << "Iteration " << i + 1 << ": ";
         displayData();
+
+        // Stop when no more swaps have done
+        if (swapsDone == false){
+            break;
+        }
     }
 
     cout << endl;
@@ -118,15 +128,15 @@ void SortingSystem<T>::insertionSort(){
         int j = i;
         while(j > 0 && tmp < data[j-1]){
             // comparing each element with all the previous ones
-               data[j] = data[j-1];
-                j--;
+            data[j] = data[j-1];
+            j--;
             // shift all elements until they are arranged in the correct order
-            }
+        }
         data[j] = tmp;
-        
+
         cout << "Iteration " << i << ": ";
         displayData();
-    
+
     }
     cout << endl;
     cout << "Sorted Data : " << endl;
@@ -136,10 +146,10 @@ void SortingSystem<T>::insertionSort(){
 int h = 0;
 template<typename T>
 void SortingSystem<T>::merge(int left, int mid, int right) {
-    
+
     int l = mid - left + 1;
     int r = right - mid;
-    
+
     vector<T> leftArray(l);
     vector<T> rightArray(r);
 
@@ -154,7 +164,7 @@ void SortingSystem<T>::merge(int left, int mid, int right) {
     int iteration = 1;
     h++;
     cout <<"\n" << h << "_ Merging Subarrays : " << endl;
-    
+
     displayData();
 
     while (i < l && j < r) {
@@ -264,7 +274,7 @@ void SortingSystem<T>::countSort() {
     for (int i = 0; i < Size; i++) {
         if (data[i] > maxNumber) maxNumber = data[i];
     }
-    cout << "Step 1: Find Max → " << maxNumber << endl << endl;
+    cout << "Step 1: Find Max -> " << maxNumber << endl << endl;
 
     vector<int> CountSorted(maxNumber + 1, 0);
     for (int i = 0; i < Size; i++) {
@@ -297,16 +307,17 @@ void SortingSystem<T>::countSort() {
     }
     cout << endl << endl;
 
-    vector<int> sortedData(Size);
+    int* sortedData = new int[Size]();
+    //vector<int> sortedData(Size);
     cout << "Step 4: Placing Elements in Sorted Order" << endl;
     for (int i = Size - 1; i >= 0; i--) {
         sortedData[CountSorted[data[i]] - 1] = data[i];
         CountSorted[data[i]]--;
 
-        cout << "Placed " << data[i] << " → ";
-        for (int num : sortedData) {
-            if (num == 0) cout << "_ ";
-            else cout << num << " ";
+        cout << "Placed " << data[i] << " -> ";
+        for (int j = 0; j < Size; j++) {
+            if (sortedData[j] == 0) cout << "_ ";
+            else cout << sortedData[j] << " ";
         }
         cout << endl;
     }
@@ -316,7 +327,91 @@ void SortingSystem<T>::countSort() {
     }
     cout << "Final Sorted Array: " << endl;
     displayData();
+    delete[] sortedData;
 }
+
+template<typename T>
+template <typename U, typename enable_if<is_integral<U>::value, bool>::type>
+void SortingSystem<T>::radixSort() {
+    cout << "Sorting using Radix Sort..." << endl;
+    cout << "Initial Data: ";
+    displayData();
+
+    int maxNumber = 0;
+
+    // Calculating the maximum number
+    for (int i = 0; i < Size; i++) {
+        if (data[i] > maxNumber) maxNumber = data[i];
+    }
+    cout << "Find Maximum Value -> " << maxNumber << endl << endl;
+
+    for (int i = 1; maxNumber / i > 0; i *= 10) {
+        cout << "---->   Sorting by digit place: " << i << endl;
+
+        // Initialize the array with zeros (0-9)
+        int countOccurrences[10] = {0};
+        int* result= new int[Size]();
+
+        // Count the occurrences of each digit
+        for (int j = 0; j < Size; j++) {
+            int digit = (data[j] / i) % 10;
+            countOccurrences[digit]++;
+        }
+
+        cout << "Step 1: Counting digits at place " << i << endl;
+        cout << "Digit:   ";
+        for (int j = 0; j < 10; j++) {
+            cout << setw(3) << j << " ";
+        }
+        cout << endl << "Count:   ";
+        for (int j = 0; j < 10; j++) {
+            cout << setw(3) << countOccurrences[j] << " ";
+        }
+        cout << endl << endl;
+
+        // Calculating cumulative sum from the frequency array
+        for (int j = 1; j < 10; j++) {
+            countOccurrences[j] += countOccurrences[j - 1];
+        }
+
+        cout << "Step 2: Cumulative Sum of Counts" << endl;
+        cout << "Digit:   ";
+        for (int j = 0; j < 10; j++) cout << setw(3) << j << " ";
+        cout << endl << "Sum:     ";
+        for (int j = 0; j < 10; j++) cout << setw(3) << countOccurrences[j] << " ";
+
+        // Add each element in its correct place from LSD to MSB
+        for (int j = Size - 1; j >= 0; j--) {
+            int digit = (data[j] / i) % 10;
+            result[countOccurrences[digit] - 1] = data[j];
+            countOccurrences[digit]--;
+        }
+
+        cout << endl << "Step 3: Placing Elements in Sorted Order" << endl;
+        for (int j = 0; j < Size; j++) {
+            if (result[j] == 0) cout << "_ ";
+            else cout << result[j] << " ";
+        }
+        cout << endl;
+
+        // Copy sorted data back to original array
+        for (int j = 0; j < Size; j++) {
+            data[j] = result[j];
+        }
+
+        cout << "Step 4: Array after sorting by place " << i << ": ";
+        displayData();
+        cout << endl << endl;
+
+        delete[] result;
+    }
+
+    cout << "Final Sorted Array: ";
+    displayData();
+}
+
+
+
 template<typename T>
 SortingSystem<T>::~SortingSystem() {
     delete [] data;
@@ -341,39 +436,45 @@ void SortingSystem<T>::showMenu() {
         switch (sortingChoice) {
             case 1:
                 measureSortTime(&SortingSystem::insertionSort);
-                    break;
+                break;
             case 2:
                 measureSortTime(&SortingSystem::selectionSort);
-                    break;
+                break;
             case 3:
                 measureSortTime(&SortingSystem::bubbleSort);
-                    break;
+                break;
             case 4:
                 measureSortTime(&SortingSystem::shellSort);
-                    break;
+                break;
             case 5:
                 measureSortTime(&SortingSystem::apply_ms);
-                    break;
+                break;
             case 6:
                 measureSortTime(&SortingSystem::apply_qs);
-                    break;
+                break;
             case 7:
-            if constexpr(is_integral<T>::value) {
-                measureSortTime(&SortingSystem::countSort);
-            }
-            else{
-                cout<<"CountSort only works for Integer numbers"<<endl;
-                sortingChoice = -1;
-            }
-                    break;
+                if constexpr(is_integral<T>::value) {
+                    measureSortTime(&SortingSystem::countSort);
+                }
+                else{
+                    cout<<"CountSort only works for Integer numbers"<<endl;
+                    sortingChoice = -1;
+                }
+                break;
             case 8:
-                //radixSort();
-                    break;
+                if constexpr(is_integral<T>::value) {
+                    measureSortTime(&SortingSystem::radixSort);
+                }
+                else{
+                    cout<<"CountSort only works for Integer numbers"<<endl;
+                    sortingChoice = -1;
+                }
+                break;
             case 9:
                 //bucketSort();
-                    break;
+                break;
             default:
-                 cout << "Invalid choice! Please enter a number between 1 and 9.\n";
+                cout << "Invalid choice! Please enter a number between 1 and 9.\n";
         }
         if (sortingChoice>=1 and sortingChoice<=9) {
             break;
@@ -385,6 +486,5 @@ template class SortingSystem<float>;
 template class SortingSystem<double>;
 template class SortingSystem<string>;
 template class SortingSystem<char>;
-
 
 
