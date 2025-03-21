@@ -15,8 +15,8 @@ using namespace std;
 template <typename T>
 class SortingSystem {
 private:
-     T* data;
-     int Size;
+    T* data;
+    int Size;
 
 public:
 
@@ -26,13 +26,16 @@ public:
     void selectionSort();
     void bubbleSort();
     void shellSort();
-    //void mergeSort(int left, int right);
-    //void merge(int left, int mid, int right);
-    //void quickSort(int left, int right);
-    //int partition(int low, int high);
+    void mergeSort(int left, int right);
+    void merge(int left, int mid, int right);
+    void apply_ms();
+    void quickSort(int start, int end);
+    void apply_qs();
+    int partition(int start, int end);
     template <typename U = T, typename std::enable_if<std::is_integral<U>::value, bool>::type = true>
     void countSort();
-    //void radixSort();
+    template <typename U = T, typename std::enable_if<std::is_integral<U>::value, bool>::type = true>
+    void radixSort();
     //void bucketSort();
     void displayData();
     void measureSortTime(void (SortingSystem::*sortFunc)());
