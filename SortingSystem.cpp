@@ -1,13 +1,74 @@
 #include "SortingSystem.h"
-
+bool isAutomaticMode;
+int sortingChoice;
 template<typename T>
 SortingSystem<T>::SortingSystem(int n) {
+    isAutomaticMode = false;
     Size = n;
     data = new T[n];
     for (int i = 0 ; i<Size;i++) {
         cout<<"Enter data ["<<i+1<<"] : ";
         cin >> data[i];
     }
+}
+template <typename T>
+SortingSystem<T>::SortingSystem(const string &filename) {
+    isAutomaticMode = true;
+    ifstream file(filename);
+    
+    if (!file) {
+        cerr << "Error: Unable to open file: " << filename << endl;
+        return;
+    }
+
+    string type;
+    int size;
+    data = nullptr; 
+
+    while (file >> type >> size) {
+        
+        if ((is_same<T, int>::value && type == "int") ||
+            (is_same<T, float>::value && type == "float") ||
+            (is_same<T, double>::value && type == "double") ||
+            (is_same<T, string>::value && type == "string") ||
+            (is_same<T, char>::value && type == "char")) {
+                cout<<type<<" "<<size<<endl;
+            if(data){
+                delete[] data;
+            }
+            data = new T[size];
+            this->Size = size;
+            for (int i = 0; i < size; i++) {
+                file >> data[i];
+
+            }
+            break;
+        }
+        file.clear();  
+        file.ignore(1000, '\n'); 
+        file.ignore(1000, '\n'); 
+    }
+    T*dataCopy = new T[size];
+    for(int i = 0;i<size;i++){
+        cout<<data[i]<<" ";
+    }
+    cout<<endl;
+    for(int i = 0 ;i<size;i++){
+        dataCopy[i]=data[i];
+    }
+    for(int i = 0 ;i<size;i++){
+        cout<<data[i]<<endl;
+    }
+    for(int i = 1;i<=9;i++){
+        sortingChoice = i;
+        SortingSystem::showMenu();
+        if(i!=9)cout<<"================================================================="<<endl;
+        for(int i = 0 ;i<size;i++){
+            data[i]=dataCopy[i];
+        }
+    }
+    delete [] dataCopy;
+    file.close();
 }
 template<typename T>
 void SortingSystem<T>::measureSortTime(void (SortingSystem::*sortFunc)()) {
@@ -414,12 +475,15 @@ void SortingSystem<T>::radixSort() {
 
 template<typename T>
 SortingSystem<T>::~SortingSystem() {
+    if(data){
     delete [] data;
+    }
 }
 
 template<typename T>
 void SortingSystem<T>::showMenu() {
     while (true) {
+        if(isAutomaticMode==false){
         cout << "Choose a sorting algorithm:\n";
         cout << "1 - Insertion Sort\n";
         cout << "2 - Selection Sort\n";
@@ -431,8 +495,8 @@ void SortingSystem<T>::showMenu() {
         cout << "8 - Radix Sort (Only for int)\n";
         cout << "9 - Bucket Sort\n";
         cout << "Choice: ";
-        int sortingChoice;
         cin >> sortingChoice;
+        }
         switch (sortingChoice) {
             case 1:
                 measureSortTime(&SortingSystem::insertionSort);
@@ -476,7 +540,7 @@ void SortingSystem<T>::showMenu() {
             default:
                 cout << "Invalid choice! Please enter a number between 1 and 9.\n";
         }
-        if (sortingChoice>=1 and sortingChoice<=9) {
+        if ((sortingChoice>=1 and sortingChoice<=9) ||isAutomaticMode==true) {
             break;
         }
     }

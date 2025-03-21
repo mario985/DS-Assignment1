@@ -11,6 +11,8 @@
 #include<chrono>
 #include <iomanip>
 #include <concepts>
+#include <fstream>
+#include <type_traits>
 using namespace std;
 template <typename T>
 class SortingSystem {
@@ -21,6 +23,7 @@ private:
 public:
 
     SortingSystem(int n);
+    SortingSystem(const string&filename);
     ~SortingSystem();
     void insertionSort();
     void selectionSort();
