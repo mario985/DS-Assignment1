@@ -15,7 +15,7 @@ template <typename T>
 SortingSystem<T>::SortingSystem(const string &filename) {
     isAutomaticMode = true;
     ifstream file(filename);
-    
+
     if (!file) {
         cerr << "Error: Unable to open file: " << filename << endl;
         return;
@@ -23,10 +23,10 @@ SortingSystem<T>::SortingSystem(const string &filename) {
 
     string type;
     int size;
-    data = nullptr; 
+    data = nullptr;
 
     while (file >> type >> size) {
-        
+
         if ((is_same<T, int>::value && type == "int") ||
             (is_same<T, float>::value && type == "float") ||
             (is_same<T, double>::value && type == "double") ||
@@ -44,9 +44,9 @@ SortingSystem<T>::SortingSystem(const string &filename) {
             }
             break;
         }
-        file.clear();  
-        file.ignore(1000, '\n'); 
-        file.ignore(1000, '\n'); 
+        file.clear();
+        file.ignore(1000, '\n');
+        file.ignore(1000, '\n');
     }
     T*dataCopy = new T[size];
     for(int i = 0;i<size;i++){
@@ -470,6 +470,93 @@ void SortingSystem<T>::radixSort() {
     cout << "Final Sorted Array: ";
     displayData();
 }
+template <typename T>
+void SortingSystem<T>::insertionSortForBucket(T* bucket, int size, int bucketNumber) {
+    cout << "Sorting bucket " << bucketNumber << " using Insertion Sort..." << endl;
+    for (int i = 1; i < size; i++) {
+        T tmp = bucket[i];
+        int j = i;
+        while (j > 0 && tmp < bucket[j - 1]) {
+            bucket[j] = bucket[j - 1];
+            j--;
+        }
+        bucket[j] = tmp;
+
+        cout << "Bucket " << bucketNumber << " after iteration " << i << ": ";
+        for (int k = 0; k < size; k++) {
+            cout << bucket[k] << " ";
+        }
+        cout << endl;
+    }
+}
+template <typename T>
+void SortingSystem<T>::bucketSort(){
+    cout << "Sorting using Bucket Sort..." << endl;
+    cout << "Initial Data: ";
+    displayData();
+
+    int bucketCount = sqrt(Size);
+    // pointer of pointers , storing addresses of multiple arrays
+    T** buckets = new T*[bucketCount];
+    // integer array to store size of each bucket.
+    int* bucketSizes = new int[bucketCount]();
+    for(int i = 0 ; i < bucketCount ; i++){
+        buckets[i] = new T[Size];
+    }
+
+    cout << "Distributing elements into buckets" << endl;
+    // is_arithmetic to be able to work with (integer , double , float , etc...)
+    if constexpr (is_arithmetic<T> :: value) {
+        T min = data[0];
+        T max = data[0];
+        for (int i = 1; i < Size; i++) {
+            if (data[i] < min) min = data[i];
+            if (data[i] > max) max = data[i];
+        }
+        T range = max - min + 1;
+        for (int i = 0; i < Size; i++) {
+            int bucketIndex = ((data[i] - min)* bucketCount )/ range;
+            if(bucketIndex >= bucketCount) bucketIndex = bucketCount - 1;
+            buckets[bucketIndex][bucketSizes[bucketIndex]++] = data[i];
+            cout << "Placed " << data[i] << " into bucket " << bucketIndex << endl;
+        }
+    }
+    else{
+        char minChar = data[0][0];
+        char maxChar = data[0][0];
+        for(int i = 1 ; i < Size ; i++){
+            char first = data[i][0];
+            if(first < minChar) minChar = first;
+            if(first > maxChar) maxChar = first;
+        }
+
+        char Range = maxChar - minChar + 1;
+        for(int i = 0 ; i < Size; i++ ){
+            char first = data[i][0];
+            int bucketIndex = ((first - minChar)* bucketCount) / Range;
+            if(bucketIndex >= bucketCount) bucketIndex = bucketCount - 1;
+            buckets[bucketIndex][bucketSizes[bucketIndex]++] = data[i];
+            cout << "Placed " << data[i] << " into bucket " << bucketIndex << endl;
+        }
+    }
+    for (int i = 0; i < bucketCount; i++) {
+        insertionSortForBucket(buckets[i], bucketSizes[i],i);
+    }
+    cout << "\nMerging buckets back into array" << endl;
+    int index = 0;
+    for(int i = 0; i < bucketCount ; i++){
+        for(int j = 0; j < bucketSizes[i]; j++){
+            data[index++] = buckets[i][j];
+        }
+    }
+    cout << "\nSorted Data: ";
+    displayData();
+    for(int i = 0; i < bucketCount; i++){
+        delete[] buckets[i];
+    }
+    delete[] buckets;
+    delete[] bucketSizes;
+}
 
 
 
@@ -479,7 +566,6 @@ SortingSystem<T>::~SortingSystem() {
     delete [] data;
     }
 }
-
 template<typename T>
 void SortingSystem<T>::showMenu() {
     while (true) {
@@ -535,7 +621,7 @@ void SortingSystem<T>::showMenu() {
                 }
                 break;
             case 9:
-                //bucketSort();
+                measureSortTime(&SortingSystem::bucketSort);
                 break;
             default:
                 cout << "Invalid choice! Please enter a number between 1 and 9.\n";

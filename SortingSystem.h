@@ -39,7 +39,8 @@ public:
     void countSort();
     template <typename U = T, typename std::enable_if<std::is_integral<U>::value, bool>::type = true>
     void radixSort();
-    //void bucketSort();
+    void bucketSort();
+    void insertionSortForBucket(T* bucket, int size, int bucketNumber);
     void displayData();
     void measureSortTime(void (SortingSystem::*sortFunc)());
     void showMenu();
