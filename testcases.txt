@@ -1,0 +1,10 @@
+int 5
+34 12 78 90 50
+float 4
+3.14 2.71 1.41 0.99
+string 3
+apple banana cherry
+char 5
+d a c b e
+double 3
+2.5 3.5 1.5
