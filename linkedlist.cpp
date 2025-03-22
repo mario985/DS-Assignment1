@@ -57,13 +57,14 @@ void SortedLinkedList::remove(int index) {
     }
 }
 int SortedLinkedList::operator[](int index) {
+
+    if (head == nullptr) {
+        throw out_of_range("List is empty.");
+    }
+    if (index >= count || index < 0) {
+        throw out_of_range("Index out of range.");
+    }
     Node*current = head;
-    if (head==NULL) {
-        return 0;
-    }
-    else if(index>count){
-        return 0 ;
-    }
     while (index>=1 && current) {
         current = current->next;
         index--;
