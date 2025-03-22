@@ -1,6 +1,59 @@
 #include <iostream>
 #include <limits>
+#include <fstream>
 using namespace std;
+
+void validateInteger(int& num);
+void display(const int* polynomial, int size);
+void calculate_sum(const int* poly1, const int* poly2, int size1, int size2);
+void calculate_diff(const int* poly1, const int* poly2, int size1, int size2);
+
+// Function to read file
+void readFile(string fileName) {
+    cout << "Reading \"" << fileName << "\" file" << endl << endl;
+
+    ifstream file(fileName);
+    if (!file) {
+        cerr << "Error opening file!\n";
+        return;
+    }
+
+    int poly1degree, poly2degree;
+
+    while (!file.eof()){
+        // Read first polynomial degree and coefficients
+        file >> poly1degree;
+        int* firstPoly = new int[poly1degree + 2];
+
+        for (int i = 0; i < poly1degree + 2; i++) {
+            file >> firstPoly[i];
+        }
+
+        // Read second polynomial degree and coefficients
+        file >> poly2degree;
+        int* secondPoly = new int[poly2degree + 2];
+
+        for (int i = 0; i < poly2degree + 2; i++) {
+            file >> secondPoly[i];
+        }
+
+        // Display polynomials
+        cout << "First polynomial: ";
+        display(firstPoly, poly1degree + 2);
+
+        cout << "Second polynomial: ";
+        display(secondPoly, poly2degree + 2);
+
+        calculate_sum(firstPoly, secondPoly, poly1degree + 2, poly2degree + 2);
+        calculate_diff(secondPoly, firstPoly, poly2degree + 2, poly1degree + 2);
+
+        cout << "------------------------------------------------------------------------\n";
+        delete[] firstPoly;
+        delete[] secondPoly;
+
+    }
+    file.close();
+}
 
 // Function to validate integer input
 void validateInteger(int& num) {
@@ -16,7 +69,7 @@ void display(const int* polynomial, int size) {
     bool first = true;
 
     for (int i = size - 1; i > 1; i--) {
-        // Skip the term if the coefficient equal to 0
+        // Skip the term if the coefficient equals 0
         if (polynomial[i] == 0) {
             continue;
         }
@@ -73,18 +126,18 @@ void calculate_sum(const int* poly1, const int* poly2, int size1, int size2) {
     delete[] result;
 }
 
-void calculate_diff(const int* poly1,const int* poly2 , int size1 , int size2){
+void calculate_diff(const int* poly1, const int* poly2, int size1, int size2){
     int max_size = (size1 > size2) ? size1 : size2;
 
-    // Allocate memory for result and copy the second polynomial into it
+    // Allocate memory for result and copy the first polynomial into it
     int* result = new int[max_size]();
-    for (int i = 0; i < size2; i++) {
-        result[i] = poly2[i];
+    for (int i = 0; i < size1; i++) {
+        result[i] = poly1[i];
     }
 
-    // Subtract elements of the first polynomial
-    for (int i = 0; i < size1; i++) {
-        result[i] -= poly1[i];
+    // Subtract elements of the second polynomial
+    for (int i = 0; i < size2; i++) {
+        result[i] -= poly2[i];
     }
 
     cout << "Difference of polynomials: ";
@@ -94,40 +147,59 @@ void calculate_diff(const int* poly1,const int* poly2 , int size1 , int size2){
 }
 
 int main() {
-    int poly1degree, poly2degree;
+    char choice;
+    cout << "Choose:\n1) Enter values\n2) Use predefined test cases\n";
+    cin >> choice;
 
-    // Reading first polynomial
-    cout << "Order of first polynomial: ";
-    validateInteger(poly1degree);
+    switch (choice) {
+        case '1': {
+            int poly1degree, poly2degree;
 
-    // Dynamic memory allocation for first polynomial
-    int* firstPoly = new int[poly1degree + 2];
-    cout << "Enter polynomial: " << endl;
-    for (int i = 0; i < poly1degree + 2; i++) {
-        validateInteger(firstPoly[i]);
+            // Reading first polynomial
+            cout << "Order of first polynomial: ";
+            validateInteger(poly1degree);
+
+            // Dynamic memory allocation for first polynomial
+            int* firstPoly = new int[poly1degree + 2];
+            cout << "Enter polynomial: " << endl;
+            for (int i = 0; i < poly1degree + 2; i++) {
+                validateInteger(firstPoly[i]);
+            }
+
+            // Reading second polynomial
+            cout << "Order of second polynomial: ";
+            validateInteger(poly2degree);
+
+            int* secondPoly = new int[poly2degree + 2];
+            cout << "Enter polynomial: " << endl;
+            for (int i = 0; i < poly2degree + 2; i++) {
+                validateInteger(secondPoly[i]);
+            }
+
+            // Display polynomials
+            cout << "First polynomial: ";
+            display(firstPoly, poly1degree + 2);
+            cout << "Second polynomial: ";
+            display(secondPoly, poly2degree + 2);
+            calculate_sum(firstPoly, secondPoly, poly1degree + 2, poly2degree + 2);
+            calculate_diff(secondPoly, firstPoly, poly2degree + 2, poly1degree + 2);
+
+            // Free allocated memory
+            delete[] firstPoly;
+            delete[] secondPoly;
+            cout << "GOODBYE!";
+
+            break;
+        }
+        case '2':
+            readFile("problem2TestCases.txt");
+            cout << "GOODBYE!";
+            break;
+        default:
+            cerr << "Invalid choice! Please enter a valid one\n";
+            cin >> choice;
+            break;
     }
-
-    // Reading second polynomial
-    cout << "Order of second polynomial: ";
-    validateInteger(poly2degree);
-
-    int* secondPoly = new int[poly2degree + 2];
-    cout << "Enter polynomial: " << endl;
-    for (int i = 0; i < poly2degree + 2; i++) {
-        validateInteger(secondPoly[i]);
-    }
-
-    // Display polynomials
-    cout << "First polynomial: ";
-    display(firstPoly, poly1degree + 2);
-    cout << "Second polynomial: ";
-    display(secondPoly, poly2degree + 2);
-    calculate_sum(firstPoly,secondPoly,poly1degree+2, poly2degree+2);
-    calculate_diff(firstPoly,secondPoly,poly1degree+2, poly2degree+2);
-
-    // Free allocated memory
-    delete[] firstPoly;
-    delete[] secondPoly;
 
     return 0;
 }
