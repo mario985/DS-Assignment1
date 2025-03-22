@@ -1,15 +1,4 @@
 #include "linkedlist.h"
-using namespace std;
-/*
-predefined testcases
-10 5 30 20 50 40 25
-77 12 99 65 23 87 11
--5 0 -10 20 -15 25 -1
-300 150 450 100 200 350 250
-8 19 2 45 33 27 11
-42 99 7 77 55 21 90
-1 -1 2 -2 3 -3 4
-*/
 void displayMenu() {
     cout << "\n===== Linked List Menu =====\n";
     cout << "1. Read from file\n";
@@ -30,19 +19,66 @@ int main(void) {
         cin >> choice;
         switch (choice) {
             case 1: { 
-                ifstream file("testcases_problem3.txt");
+                std::ifstream file("testcases_problem3.txt");
                 if (!file) {
-                    cerr << "Error: Could not open file.\n";
-                    break;
+                    std::cerr << "Error: Could not open file.\n";
+                    return 1;
                 }
+            
+                std::string line;
+                int testCaseNumber = 1;
+            
+                while (std::getline(file, line)) {
+                    if (line.empty()) continue; 
+            
+                    SortedLinkedList fileList;
+                    std::istringstream ss(line);
+                    int value;
 
-                int value;
-                while (file >> value) {
-                    list.insert(value);
+                    while (ss >> value) {
+                        fileList.insert(value);
+                    }
+            
+                    std::cout << "Test Case " << testCaseNumber++ << ":\n";
+                    std::cout << "Initial List: " << fileList << std::endl;
+            
+                    while (std::getline(file, line) && !line.empty()) {
+                        std::istringstream commandStream(line);
+                        std::string command;
+                        commandStream >> command;
+            
+                        if (command == "insert") {
+                            int val;
+                            if (commandStream >> val) {
+                                fileList.insert(val);
+                                std::cout << "Inserted " << val << "\n";
+                                cout<<fileList<<endl;
+                            }
+                        } else if (command == "remove") {
+                            int index;
+                            if (commandStream >> index) {
+                                fileList.remove(index);
+                                std::cout << "Removed at index " << index << "\n";
+                                cout<<fileList<<endl;
+                            }
+                        } else if (command == "print") {
+                            std::cout << "List: " << fileList << std::endl;
+                        } else if (command == "access") {
+                            int index;
+                            if (commandStream >> index) {
+                                try {
+                                    fileList[index];
+                                    std::cout << "Element at index " << index << " : " << fileList[index] << "\n";
+                                } catch (const std::out_of_range& e) {
+                                    std::cerr << e.what() << "\n";
+                                }
+                            }
+                        }
+                    }
+                    std::cout << "Final List: " << fileList << "\n\n";
                 }
+            
                 file.close();
-                cout << "Data loaded successfully!\n";
-                cout<<list;
                 break;
             }
             case 2: {
@@ -87,6 +123,8 @@ int main(void) {
             default:
                 cout << "Invalid choice. Try again.\n";
         }
+       
+
 
     }
 }

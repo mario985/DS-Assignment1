@@ -2,6 +2,7 @@
 #define SORTEDLINKEDLIST_H
 #include <iostream>
 #include <fstream>
+#include <sstream>
 using namespace std;
 class Node {
 public:
