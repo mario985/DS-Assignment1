@@ -19,63 +19,63 @@ int main(void) {
         cin >> choice;
         switch (choice) {
             case 1: { 
-                std::ifstream file("testcases_problem3.txt");
+                ifstream file("testcases_problem3.txt");
                 if (!file) {
-                    std::cerr << "Error: Could not open file.\n";
+                    cerr << "Error: Could not open file.\n";
                     return 1;
                 }
             
-                std::string line;
+                string line;
                 int testCaseNumber = 1;
             
-                while (std::getline(file, line)) {
+                while (getline(file, line)) {
                     if (line.empty()) continue; 
             
                     SortedLinkedList fileList;
-                    std::istringstream ss(line);
+                    istringstream ss(line);
                     int value;
 
                     while (ss >> value) {
                         fileList.insert(value);
                     }
             
-                    std::cout << "Test Case " << testCaseNumber++ << ":\n";
-                    std::cout << "Initial List: " << fileList << std::endl;
+                    cout << "Test Case " << testCaseNumber++ << ":\n";
+                    cout << "Initial List: " << fileList << endl;
             
-                    while (std::getline(file, line) && !line.empty()) {
-                        std::istringstream commandStream(line);
-                        std::string command;
+                    while (getline(file, line) && !line.empty()) {
+                        istringstream commandStream(line);
+                        string command;
                         commandStream >> command;
             
                         if (command == "insert") {
                             int val;
                             if (commandStream >> val) {
                                 fileList.insert(val);
-                                std::cout << "Inserted " << val << "\n";
+                                cout << "Inserted " << val << "\n";
                                 cout<<fileList<<endl;
                             }
                         } else if (command == "remove") {
                             int index;
                             if (commandStream >> index) {
                                 fileList.remove(index);
-                                std::cout << "Removed at index " << index << "\n";
+                                cout << "Removed at index " << index << "\n";
                                 cout<<fileList<<endl;
                             }
                         } else if (command == "print") {
-                            std::cout << "List: " << fileList << std::endl;
+                            cout << "List: " << fileList << endl;
                         } else if (command == "access") {
                             int index;
                             if (commandStream >> index) {
                                 try {
                                     fileList[index];
-                                    std::cout << "Element at index " << index << " : " << fileList[index] << "\n";
-                                } catch (const std::out_of_range& e) {
-                                    std::cerr << e.what() << "\n";
+                                    cout << "Element at index " << index << " : " << fileList[index] << "\n";
+                                } catch (const out_of_range& e) {
+                                    cerr << e.what() << "\n";
                                 }
                             }
                         }
                     }
-                    std::cout << "Final List: " << fileList << "\n\n";
+                    cout << "Final List: " << fileList << "\n\n";
                 }
             
                 file.close();
