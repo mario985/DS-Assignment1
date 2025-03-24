@@ -28,16 +28,16 @@ class IftarManager {
 private:
     Guest** guest_list;
     int capacity;
-    int numOfGuests;
+    int no_guests;
 
 public:
-    IftarManager(int capacity) : capacity(capacity), numOfGuests(0) {
+    IftarManager(int capacity) : capacity(capacity), no_guests(0) {
         // Dynamically allocates an array of Guest* pointers with a size of capacity & initialize with nullptr.
         guest_list = new Guest*[capacity]();
     }
 
     ~IftarManager() {
-        for (int i = 0; i < numOfGuests; i++) {
+        for (int i = 0; i < no_guests; i++) {
             delete guest_list[i];
         }
         delete[] guest_list;  
@@ -45,8 +45,8 @@ public:
 
     void add_guest(Guest *guest) {
         // add the guest if the max capacity is not reached
-        if (numOfGuests < capacity) {
-            guest_list[numOfGuests++] = guest;
+        if (no_guests < capacity) {
+            guest_list[no_guests++] = guest;
             cout << "Guest " << guest->name << ", is successfully added in the list" << endl;
         }
         else {
@@ -57,14 +57,14 @@ public:
     }
 
     void display_all_guests() const{
-        for (int i = 0; i < numOfGuests; i++) {
+        for (int i = 0; i < no_guests; i++) {
             cout << "Guest " << i + 1;
             guest_list[i]->display_guest();
         }
     }
 
     void update_guest_invitation(const string& name, const string& new_date) {
-        for (int i = 0; i < numOfGuests; i++) {
+        for (int i = 0; i < no_guests; i++) {
             // If the name existed in the list update the date
             if (guest_list[i]->name == name) {
                 guest_list[i]->update_invitation(new_date);
@@ -76,18 +76,18 @@ public:
     }
 
     void remove_guest(const string& name) {
-        for (int i = 0; i < numOfGuests; i++) {
+        for (int i = 0; i < no_guests; i++) {
             // If the name existed in the list remove it
             if (guest_list[i]->name == name) {
                 delete guest_list[i]; 
 
                 // Shift the guests to the left in the list to fill the gap
-                for (int j = i; j < numOfGuests - 1; j++) {
+                for (int j = i; j < no_guests - 1; j++) {
                     guest_list[j] = guest_list[j + 1]; 
                 }
 
-                numOfGuests--;
-                guest_list[numOfGuests] = nullptr; // Set the last element to nullptr
+                no_guests--;
+                guest_list[no_guests] = nullptr; // Set the last element to nullptr
                 cout << "Guest " << name << " removed from guest list" << endl;
                 return;
             }
@@ -97,7 +97,7 @@ public:
 
     void send_reminder(const string& date) {
         bool found = false;
-        for (int i = 0; i < numOfGuests; i++) {
+        for (int i = 0; i < no_guests; i++) {
             // Sends a reminder if it is the same date passed
             if (guest_list[i]->iftar_date == date) {
                 cout << "Reminder sent to " << guest_list[i]->name
@@ -111,10 +111,10 @@ public:
     }
     // Sorts the array by the date using insertion sort
     void InsertionSort_guestList() {
-        if (numOfGuests <= 1) {
+        if (no_guests <= 1) {
             return;
         }
-        for (int i = 1; i < numOfGuests; i++) {
+        for (int i = 1; i < no_guests; i++) {
             Guest* key = guest_list[i]; 
             int j = i - 1;
 
