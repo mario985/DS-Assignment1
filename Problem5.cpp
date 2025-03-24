@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <limits>
 using namespace std;
 
@@ -8,7 +9,7 @@ private:
     T* data;
     int size;
 public:
-    StatisticalCalculation(int size);
+    StatisticalCalculation(int size =0);
     ~StatisticalCalculation();
 
     void sort();
@@ -20,6 +21,7 @@ public:
 
     void displayArray();
     void inputData();
+    void ReadFile(const string& filename);
     void statisticsMenu();
 };
 
@@ -52,6 +54,38 @@ void StatisticalCalculation<T>::inputData() {
 }
 
 template <typename T>
+void StatisticalCalculation<T>::ReadFile(const string& filename) {
+    ifstream file(filename);
+    if (!file.is_open()) {
+        cerr << "Error opening file!" << endl;
+        return;
+    }
+    T val;
+    size = 0;
+    while(file >> val){
+        size++;
+    }
+    // here file pointer is at te end of the file so we must move it back to the beginning
+    file.clear();
+    // we move the pointer to the file back to the beginning so we can read the file again
+    file.seekg(0, ios::beg);
+    delete []data;
+    data = new T[size];
+    cout << endl;
+    for (int i = 0; i < size; i++) {
+        if (!(file >> data[i])) {
+            cerr << "Error reading data from file!" << endl;
+            return;
+        }
+    }
+    file.close();
+
+    cout << "Size of data: " << size << endl;
+    cout << "Data: ";
+    displayArray();
+}
+
+template <typename T>
 void StatisticalCalculation<T>::displayArray() {
     for (int i = 0; i < size; i++) {
         cout << data[i] << " ";
@@ -73,9 +107,10 @@ void StatisticalCalculation<T>::sort() {
         }
     }
 }
-
+// here we find minimum element from data
 template<typename T>
 T StatisticalCalculation<T>::findMin() {
+    displayArray();
     T min = data[0];
     for(int i = 0; i < size; i++) {
         if(data[i] < min) {
@@ -84,9 +119,10 @@ T StatisticalCalculation<T>::findMin() {
     }
     return min;
 }
-
+// here we find maximum element from data
 template<typename T>
 T StatisticalCalculation<T>::findMax() {
+    displayArray();
     T max = data[0];
     for(int i = 0; i < size; i++) {
         if(data[i] > max) {
@@ -95,9 +131,10 @@ T StatisticalCalculation<T>::findMax() {
     }
     return max;
 }
-
+// mean is sum of data values over the size
 template<typename T>
 T StatisticalCalculation<T>::findMean() {
+    displayArray();
     double sum = 0;
     for(int i = 0; i < size; i++) {
         sum += data[i];
@@ -107,16 +144,18 @@ T StatisticalCalculation<T>::findMean() {
 
 template<typename T>
 T StatisticalCalculation<T>::findSummation() {
+    displayArray();
     T sum = 0;
     for(int i = 0; i < size; i++) {
         sum += data[i];
     }
     return sum;
 }
-
+// here we got element at 50% , it has different cases when length of data even or odd
 template<typename T>
 double StatisticalCalculation<T>::findMedian() {
     sort();
+    displayArray();
     int n = size;
     if(n % 2 == 1) {
         return data[n / 2];
@@ -171,45 +210,17 @@ int main() {
     cout << "Welcome to the Statistical Analysis System\n";
 
     while (true) {
-        string dataType;
-        while (true) {
-            cout << "Select the data type:\n";
-            cout << "1 - Integer\n";
-            cout << "2 - Float\n";
-            cout << "3 - Double\n";
-            cout << "Enter choice (1-3): ";
-            int typeChoice;
-            cin >> typeChoice;
+        char Choice;
+        cout << "Do you want to input data manually (M) or from a file (F)? " << endl;
+        cin >> Choice;
 
-            if (cin.fail() || typeChoice < 1 || typeChoice > 3) {
-                cout << "Invalid input! Please enter 1, 2, or 3.\n";
-                cin.clear();
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            } else {
-                if (typeChoice == 1) dataType = "integer";
-                else if (typeChoice == 2) dataType = "float";
-                else if (typeChoice == 3) dataType = "double";
-                break;
-            }
-        }
-
-        int size;
-        while (true) {
-            cout << "Enter the number of elements: ";
-            cin >> size;
-
-            if (cin.fail() || size < 1) {
-                cout << "Please enter a valid positive number.\n";
-                cin.clear();
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            } else {
-                break;
-            }
-        }
-
-        if (dataType == "integer") {
-            StatisticalCalculation<int> stat(size);
-            stat.inputData();
+        if (tolower(Choice) == 'f') {
+            string filename;
+            cout << "Enter the filename: ";
+            cin >> filename;
+            // we used double here to be able to work with integer , double , float
+            StatisticalCalculation<double> stat;
+            stat.ReadFile(filename);
             stat.sort();
             while (true) {
                 stat.statisticsMenu();
@@ -218,32 +229,80 @@ int main() {
                 cin >> c;
                 if (tolower(c) == 'n') break;
             }
-        }
-        else if (dataType == "double") {
-            StatisticalCalculation<double> stat(size);
-            stat.inputData();
-            stat.sort();
+        } else {
+            string dataType;
             while (true) {
-                stat.statisticsMenu();
-                cout << "Do you want to perform another calculation on this dataset? (y/n): ";
-                char c;
-                cin >> c;
-                if (tolower(c) == 'n') break;
-            }
-        }
-        else if (dataType == "float") {
-            StatisticalCalculation<float> stat(size);
-            stat.inputData();
-            stat.sort();
-            while (true) {
-                stat.statisticsMenu();
-                cout << "Do you want to perform another calculation on this dataset? (y/n): ";
-                char c;
-                cin >> c;
-                if (tolower(c) == 'n') break;
-            }
-        }
+                cout << "Select the data type:\n";
+                cout << "1 - Integer\n";
+                cout << "2 - Float\n";
+                cout << "3 - Double\n";
+                cout << "Enter choice (1-3): ";
+                int type;
+                cin >> type;
 
+                if (cin.fail() || type < 1 || type > 3) {
+                    cout << "Invalid input! Please enter 1, 2, or 3.\n";
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                } else {
+                    if (type == 1) dataType = "integer";
+                    else if (type == 2) dataType = "float";
+                    else if (type == 3) dataType = "double";
+                    break;
+                }
+            }
+
+            int size;
+            while (true) {
+                cout << "Enter the number of elements: ";
+                cin >> size;
+
+                if (cin.fail() || size < 1) {
+                    cout << "Please enter a valid positive number.\n";
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                } else {
+                    break;
+                }
+            }
+
+            if (dataType == "integer") {
+                StatisticalCalculation<int> stat(size);
+                stat.inputData();
+                stat.sort();
+                while (true) {
+                    stat.statisticsMenu();
+                    cout << "Do you want to perform another calculation on this dataset? (y/n): " << endl;
+                    char c;
+                    cin >> c;
+                    if (tolower(c) == 'n') break;
+                }
+            }
+            else if (dataType == "double") {
+                StatisticalCalculation<double> stat(size);
+                stat.inputData();
+                stat.sort();
+                while (true) {
+                    stat.statisticsMenu();
+                    cout << "Do you want to perform another calculation on this dataset? (y/n): " << endl;
+                    char c;
+                    cin >> c;
+                    if (tolower(c) == 'n') break;
+                }
+            }
+            else if (dataType == "float") {
+                StatisticalCalculation<float> stat(size);
+                stat.inputData();
+                stat.sort();
+                while (true) {
+                    stat.statisticsMenu();
+                    cout << "Do you want to perform another calculation on this dataset? (y/n): ";
+                    char c;
+                    cin >> c;
+                    if (tolower(c) == 'n') break;
+                }
+            }
+        }
         cout << "Do you want to enter a new dataset? (y/n): ";
         char choice;
         cin >> choice;
@@ -252,6 +311,5 @@ int main() {
             break;
         }
     }
-
     return 0;
 }
