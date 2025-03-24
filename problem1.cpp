@@ -131,10 +131,10 @@ int main() {
     // Create an IftarManager list with a capacity of 5
     IftarManager manager(5);
 
-    Guest* guest1 = new Guest("ahmed", "ahmed@example.com", "2025-03-15");
-    Guest* guest2 = new Guest("ali", "ali@example.com", "2025-03-18");
-    Guest* guest3 = new Guest("fares", "fares@example.com", "2025-03-12");
-    Guest* guest4 = new Guest("shika", "shika@example.com", "2025-03-20");
+    auto* guest1 = new Guest("ahmed", "ahmed@example.com", "2025-03-15");
+    auto* guest2 = new Guest("ali", "ali@example.com", "2025-03-18");
+    auto* guest3 = new Guest("fares", "fares@example.com", "2025-03-12");
+    auto* guest4 = new Guest("shika", "shika@example.com", "2025-03-20");
 
     manager.add_guest(guest1);
     manager.add_guest(guest2);
@@ -174,9 +174,9 @@ int main() {
     manager.display_all_guests();
     cout << "-----------------------------------------\n";
 
-    Guest* guest5 = new Guest("Omar", "omar@example.com", "2025-07-06");
-    Guest* guest6 = new Guest("Mohamed", "mohamed@example.com", "2025-07-08");
-    Guest* guest7 = new Guest("Kareem", "kareem@example.com", "2025-07-11");
+    auto* guest5 = new Guest("Omar", "omar@example.com", "2025-07-06");
+    auto* guest6 = new Guest("Mohamed", "mohamed@example.com", "2025-07-08");
+    auto* guest7 = new Guest("Kareem", "kareem@example.com", "2025-07-11");
 
     manager.add_guest(guest5);
     manager.add_guest(guest6);
