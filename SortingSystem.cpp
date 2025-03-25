@@ -203,8 +203,8 @@ void SortingSystem<T>::merge(int left, int mid, int right) {
     int l = mid - left + 1;
     int r = right - mid;
 
-    vector<T> leftArray(l);
-    vector<T> rightArray(r);
+    T* leftArray = new T[l];  
+    T* rightArray = new T[r];
 
     for (int i = 0; i < l; i++) {
         leftArray[i] = data[left + i];
@@ -249,6 +249,9 @@ void SortingSystem<T>::merge(int left, int mid, int right) {
         cout << "Iteration " << iteration++ << ": ";
         displayData();
     }
+    delete[] leftArray;  
+    delete[] rightArray;
+    
 }
 
 template<typename T>
