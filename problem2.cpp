@@ -192,8 +192,8 @@ int main() {
             break;
         }
         case '2':
-            readFile("problem2TestCases.txt");
-            cout << "GOODBYE!";
+            readFile("Testcases/testcases_problem2.txt");
+            cout << "GOODBYE!"<<endl;
             break;
         default:
             cerr << "Invalid choice! Please enter a valid one\n";
