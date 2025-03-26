@@ -19,6 +19,10 @@ class SortingSystem {
 private:
     T* data;
     int Size;
+    void apply_ms();
+    void apply_qs();
+    void insertionSortForBucket(T* bucket, int size, int bucketNumber);
+
 
 public:
 
@@ -31,16 +35,13 @@ public:
     void shellSort();
     void mergeSort(int left, int right);
     void merge(int left, int mid, int right);
-    void apply_ms();
     void quickSort(int start, int end);
-    void apply_qs();
     int partition(int start, int end);
     template <typename U = T, typename enable_if<is_integral<U>::value, bool>::type = true>
     void countSort();
     template <typename U = T, typename enable_if<is_integral<U>::value, bool>::type = true>
     void radixSort();
     void bucketSort();
-    void insertionSortForBucket(T* bucket, int size, int bucketNumber);
     void displayData();
     void measureSortTime(void (SortingSystem::*sortFunc)());
     void showMenu();
