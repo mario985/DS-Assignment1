@@ -40,7 +40,7 @@ public:
         for (int i = 0; i < no_guests; i++) {
             delete guest_list[i];
         }
-        delete[] guest_list;  
+        delete[] guest_list;
     }
 
     void add_guest(Guest *guest) {
@@ -79,11 +79,11 @@ public:
         for (int i = 0; i < no_guests; i++) {
             // If the name existed in the list remove it
             if (guest_list[i]->name == name) {
-                delete guest_list[i]; 
+                delete guest_list[i];
 
                 // Shift the guests to the left in the list to fill the gap
                 for (int j = i; j < no_guests - 1; j++) {
-                    guest_list[j] = guest_list[j + 1]; 
+                    guest_list[j] = guest_list[j + 1];
                 }
 
                 no_guests--;
@@ -115,7 +115,7 @@ public:
             return;
         }
         for (int i = 1; i < no_guests; i++) {
-            Guest* key = guest_list[i]; 
+            Guest* key = guest_list[i];
             int j = i - 1;
 
             while (j >= 0 && guest_list[j]->iftar_date > key->iftar_date) {
