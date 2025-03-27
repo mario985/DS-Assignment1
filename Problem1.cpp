@@ -2,7 +2,6 @@
 #include <string>
 #include <utility>
 using namespace std;
-
 class Guest {
 public:
     string name;

@@ -220,7 +220,8 @@ int main() {
             cin >> filename;
             // we used double here to be able to work with integer , double , float
             StatisticalCalculation<double> stat;
-            stat.ReadFile(filename);
+            string filepath = "Testcases/" + filename;
+            stat.ReadFile(filepath);
             stat.sort();
             while (true) {
                 stat.statisticsMenu();
