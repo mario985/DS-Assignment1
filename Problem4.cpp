@@ -1,14 +1,10 @@
 #include <iostream>
 #include <string>
 #include <array>
-#include <vector>
-#include <ctime>
-#include <cstdlib>
 #include <cmath>
 #include <algorithm>
 #include<chrono>
 #include <iomanip>
-#include <concepts>
 #include <fstream>
 #include <type_traits>
 using namespace std;
@@ -503,6 +499,9 @@ void SortingSystem<T>::apply_qs(){
 template <typename T>
 template <typename U, typename enable_if<is_integral<U>::value, bool>::type>
 void SortingSystem<T>::countSort() {
+    cout << "Sorting using count Sort..." << endl;
+    cout << "Initial Data: ";
+
     int maxNumber = 0;
 
     for (int i = 0; i < Size; i++) {
