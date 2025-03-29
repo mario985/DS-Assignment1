@@ -209,7 +209,7 @@ int main() {
     cout << "Welcome to the Statistical Analysis System\n";
 
     char inputChoice;
-    cout << "Do you want to input data manually (M) or from a file (F)? ";
+    cout << "Do you want to input data manually (M) or from a file (F)? " << endl;
     cin >> inputChoice;
 
     if (tolower(inputChoice) == 'f') {
