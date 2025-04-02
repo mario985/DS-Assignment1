@@ -1,14 +1,10 @@
 #include <iostream>
 #include <string>
 #include <array>
-#include <vector>
-#include <ctime>
-#include <cstdlib>
 #include <cmath>
 #include <algorithm>
 #include<chrono>
 #include <iomanip>
-#include <concepts>
 #include <fstream>
 #include <type_traits>
 using namespace std;
@@ -83,26 +79,26 @@ int main() {
                 }
 
                 switch (choice) {
-                case 1: {
-                    SortingSystem<string> sorter("Testcases/testcases_problem4.txt");
-                    break;
-                }
-                case 2: {
-                    SortingSystem<int> sorter("Testcases/testcases_problem4.txt");
-                    break;
-                }
-                case 3: {
-                    SortingSystem<double> sorter("Testcases/testcases_problem4.txt");
-                    break;
-                }
-                case 4: {
-                    SortingSystem<float> sorter("Testcases/testcases_problem4.txt");
-                    break;
-                }
-                case 5: {
-                    SortingSystem<char> sorter("Testcases/testcases_problem4.txt");
-                    break;
-                }
+                    case 1: {
+                        SortingSystem<string> sorter("Testcases/testcases_problem4.txt");
+                        break;
+                    }
+                    case 2: {
+                        SortingSystem<int> sorter("Testcases/testcases_problem4.txt");
+                        break;
+                    }
+                    case 3: {
+                        SortingSystem<double> sorter("Testcases/testcases_problem4.txt");
+                        break;
+                    }
+                    case 4: {
+                        SortingSystem<float> sorter("Testcases/testcases_problem4.txt");
+                        break;
+                    }
+                    case 5: {
+                        SortingSystem<char> sorter("Testcases/testcases_problem4.txt");
+                        break;
+                    }
                 }
                 break;
             }
@@ -130,34 +126,34 @@ int main() {
                 cin >> choice;
 
                 switch (choice) {
-                case 1: {
-                    SortingSystem<string> sorter(size);
-                    sorter.showMenu();
-                    break;
-                }
-                case 2: {
-                    SortingSystem<int> sorter(size);
-                    sorter.showMenu();
-                    break;
-                }
-                case 3: {
-                    SortingSystem<double> sorter(size);
-                    sorter.showMenu();
-                    break;
-                }
-                case 4: {
-                    SortingSystem<float> sorter(size);
-                    sorter.showMenu();
-                    break;
-                }
-                case 5: {
-                    SortingSystem<char> sorter(size);
-                    sorter.showMenu();
-                    break;
-                }
-                default:
-                    cout << "Invalid choice! Please enter a number between 1 and 5.\n";
-                    continue;
+                    case 1: {
+                        SortingSystem<string> sorter(size);
+                        sorter.showMenu();
+                        break;
+                    }
+                    case 2: {
+                        SortingSystem<int> sorter(size);
+                        sorter.showMenu();
+                        break;
+                    }
+                    case 3: {
+                        SortingSystem<double> sorter(size);
+                        sorter.showMenu();
+                        break;
+                    }
+                    case 4: {
+                        SortingSystem<float> sorter(size);
+                        sorter.showMenu();
+                        break;
+                    }
+                    case 5: {
+                        SortingSystem<char> sorter(size);
+                        sorter.showMenu();
+                        break;
+                    }
+                    default:
+                        cout << "Invalid choice! Please enter a number between 1 and 5.\n";
+                        continue;
                 }
                 break;
             }
@@ -503,6 +499,9 @@ void SortingSystem<T>::apply_qs(){
 template <typename T>
 template <typename U, typename enable_if<is_integral<U>::value, bool>::type>
 void SortingSystem<T>::countSort() {
+    cout << "Sorting using count Sort..." << endl;
+    cout << "Initial Data: ";
+
     int maxNumber = 0;
 
     for (int i = 0; i < Size; i++) {
@@ -758,47 +757,47 @@ void SortingSystem<T>::showMenu() {
             cin >> sortingChoice;
         }
         switch (sortingChoice) {
-        case 1:
-            measureSortTime(&SortingSystem::insertionSort);
-            break;
-        case 2:
-            measureSortTime(&SortingSystem::selectionSort);
-            break;
-        case 3:
-            measureSortTime(&SortingSystem::bubbleSort);
-            break;
-        case 4:
-            measureSortTime(&SortingSystem::shellSort);
-            break;
-        case 5:
-            measureSortTime(&SortingSystem::apply_ms);
-            break;
-        case 6:
-            measureSortTime(&SortingSystem::apply_qs);
-            break;
-        case 7:
-            if constexpr(is_integral<T>::value) {
-                measureSortTime(&SortingSystem::countSort);
-            }
-            else{
-                cout<<"CountSort only works for Integer numbers"<<endl;
-                sortingChoice = -1;
-            }
-            break;
-        case 8:
-            if constexpr(is_integral<T>::value) {
-                measureSortTime(&SortingSystem::radixSort);
-            }
-            else{
-                cout<<"CountSort only works for Integer numbers"<<endl;
-                sortingChoice = -1;
-            }
-            break;
-        case 9:
-            measureSortTime(&SortingSystem::bucketSort);
-            break;
-        default:
-            cout << "Invalid choice! Please enter a number between 1 and 9.\n";
+            case 1:
+                measureSortTime(&SortingSystem::insertionSort);
+                break;
+            case 2:
+                measureSortTime(&SortingSystem::selectionSort);
+                break;
+            case 3:
+                measureSortTime(&SortingSystem::bubbleSort);
+                break;
+            case 4:
+                measureSortTime(&SortingSystem::shellSort);
+                break;
+            case 5:
+                measureSortTime(&SortingSystem::apply_ms);
+                break;
+            case 6:
+                measureSortTime(&SortingSystem::apply_qs);
+                break;
+            case 7:
+                if constexpr(is_integral<T>::value) {
+                    measureSortTime(&SortingSystem::countSort);
+                }
+                else{
+                    cout<<"CountSort only works for Integer numbers"<<endl;
+                    sortingChoice = -1;
+                }
+                break;
+            case 8:
+                if constexpr(is_integral<T>::value) {
+                    measureSortTime(&SortingSystem::radixSort);
+                }
+                else{
+                    cout<<"CountSort only works for Integer numbers"<<endl;
+                    sortingChoice = -1;
+                }
+                break;
+            case 9:
+                measureSortTime(&SortingSystem::bucketSort);
+                break;
+            default:
+                cout << "Invalid choice! Please enter a number between 1 and 9.\n";
         }
         if ((sortingChoice>=1 and sortingChoice<=9) ||isAutomaticMode==true) {
             break;
@@ -810,6 +809,5 @@ template class SortingSystem<float>;
 template class SortingSystem<double>;
 template class SortingSystem<string>;
 template class SortingSystem<char>;
-
 
 
