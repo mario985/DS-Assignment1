@@ -3,7 +3,8 @@
 #include <array>
 #include <cmath>
 #include <algorithm>
-#include<chrono>
+#include <chrono>
+#include <vector>
 #include <iomanip>
 #include <fstream>
 #include <type_traits>
