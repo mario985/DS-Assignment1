@@ -205,35 +205,36 @@ void StatisticalCalculation<T>::statisticsMenu() {
         break;
     }
 }
-
 int main() {
     cout << "Welcome to the Statistical Analysis System\n";
 
-    while (true) {
-        char Choice;
-        cout << "Do you want to input data manually (M) or from a file (F)? " << endl;
-        cin >> Choice;
+    char inputChoice;
+    cout << "Do you want to input data manually (M) or from a file (F)? " << endl;
+    cin >> inputChoice;
 
-        if (tolower(Choice) == 'f') {
-            string filename;
-            cout << "Enter the filename: ";
-            cin >> filename;
-            // we used double here to be able to work with integer , double , float
-            StatisticalCalculation<double> stat;
-            string filepath = "Testcases/" + filename;
-            stat.ReadFile(filepath);
-            stat.sort();
-            while (true) {
-                stat.statisticsMenu();
-                cout << "Do you want to perform another calculation on this dataset? (y/n): ";
-                char c;
-                cin >> c;
-                if (tolower(c) == 'n') break;
-            }
-        } else {
+    if (tolower(inputChoice) == 'f') {
+        // File processing
+        string filename;
+        cout << "Enter the filename: ";
+        cin >> filename;
+
+        StatisticalCalculation<double> stat;
+        stat.ReadFile(filename);
+        stat.sort();
+
+        cout << "\nAll statistical calculations for file data:\n";
+        cout << "Median: " << stat.findMedian() << endl;
+        cout << "Minimum: " << stat.findMin() << endl;
+        cout << "Maximum: " << stat.findMax() << endl;
+        cout << "Mean: " << stat.findMean() << endl;
+        cout << "Summation: " << stat.findSummation() << endl;
+    }
+    else {
+        // Manual processing
+        while (true) {
             string dataType;
             while (true) {
-                cout << "Select the data type:\n";
+                cout << "\nSelect the data type:\n";
                 cout << "1 - Integer\n";
                 cout << "2 - Float\n";
                 cout << "3 - Double\n";
@@ -245,7 +246,8 @@ int main() {
                     cout << "Invalid input! Please enter 1, 2, or 3.\n";
                     cin.clear();
                     cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                } else {
+                }
+                else {
                     if (type == 1) dataType = "integer";
                     else if (type == 2) dataType = "float";
                     else if (type == 3) dataType = "double";
@@ -262,7 +264,8 @@ int main() {
                     cout << "Please enter a valid positive number.\n";
                     cin.clear();
                     cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                } else {
+                }
+                else {
                     break;
                 }
             }
@@ -273,7 +276,7 @@ int main() {
                 stat.sort();
                 while (true) {
                     stat.statisticsMenu();
-                    cout << "Do you want to perform another calculation on this dataset? (y/n): " << endl;
+                    cout << "Do you want to perform another calculation on this dataset? (y/n): ";
                     char c;
                     cin >> c;
                     if (tolower(c) == 'n') break;
@@ -285,7 +288,7 @@ int main() {
                 stat.sort();
                 while (true) {
                     stat.statisticsMenu();
-                    cout << "Do you want to perform another calculation on this dataset? (y/n): " << endl;
+                    cout << "Do you want to perform another calculation on this dataset? (y/n): ";
                     char c;
                     cin >> c;
                     if (tolower(c) == 'n') break;
@@ -303,13 +306,14 @@ int main() {
                     if (tolower(c) == 'n') break;
                 }
             }
-        }
-        cout << "Do you want to enter a new dataset? (y/n): ";
-        char choice;
-        cin >> choice;
-        if (tolower(choice) == 'n') {
-            cout << "Exiting the program...\n";
-            break;
+
+            cout << "\nDo you want to enter a new dataset? (y/n): ";
+            char Choice;
+            cin >> Choice;
+            if (tolower(Choice) == 'n') {
+                cout << "Exiting the program...\n";
+                break;
+            }
         }
     }
     return 0;
