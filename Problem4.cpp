@@ -508,7 +508,7 @@ void SortingSystem<T>::countSort() {
         if (data[i] > maxNumber) maxNumber = data[i];
     }
     cout << "Step 1: Find Max -> " << maxNumber << endl << endl;
-    int* countSorted = new int[Size]();
+    int* countSorted = new int[maxNumber]();
     vector<int> CountSorted(maxNumber + 1, 0);
     for (int i = 0; i < Size; i++) {
         CountSorted[data[i]]++;
