@@ -4,7 +4,6 @@
 #include <cmath>
 #include <algorithm>
 #include <chrono>
-#include <vector>
 #include <iomanip>
 #include <fstream>
 #include <type_traits>
@@ -242,7 +241,7 @@ void SortingSystem<T>::measureSortTime(void (SortingSystem::*sortFunc)()) {
     auto start_time = chrono::high_resolution_clock::now();
     (this->*sortFunc)();
     auto end_time = chrono::high_resolution_clock::now();
-    auto duration = chrono::duration_cast<chrono::milliseconds>(end_time - start_time);
+    auto duration = chrono::duration_cast<chrono::microseconds>(end_time - start_time);
     cout << fixed << setprecision(6);
     cout  << "Sorting Time: " << duration.count() /1000000.0 << " seconds\n";
 }
