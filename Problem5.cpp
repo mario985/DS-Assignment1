@@ -213,15 +213,10 @@ int main() {
     cin >> inputChoice;
 
     if (tolower(inputChoice) == 'f') {
-        // File processing
-        string filename;
-        cout << "Enter the filename: ";
-        cin >> filename;
 
         StatisticalCalculation<double> stat;
-        stat.ReadFile(filename);
+        stat.ReadFile("Testcases/testcases_problem5.txt");
         stat.sort();
-
         cout << "\nAll statistical calculations for file data:\n";
         cout << "Median: " << stat.findMedian() << endl;
         cout << "Minimum: " << stat.findMin() << endl;
