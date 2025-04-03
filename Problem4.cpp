@@ -508,8 +508,7 @@ void SortingSystem<T>::countSort() {
         if (data[i] > maxNumber) maxNumber = data[i];
     }
     cout << "Step 1: Find Max -> " << maxNumber << endl << endl;
-    int* countSorted = new int[maxNumber]();
-    vector<int> CountSorted(maxNumber + 1, 0);
+    int* CountSorted = new int[maxNumber]();
     for (int i = 0; i < Size; i++) {
         CountSorted[data[i]]++;
     }
@@ -561,7 +560,7 @@ void SortingSystem<T>::countSort() {
     cout << "Final Sorted Array: " << endl;
     displayData();
     delete[] sortedData;
-    delete [] countSorted;
+    delete [] CountSorted;
 }
 
 template<typename T>
