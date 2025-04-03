@@ -502,7 +502,7 @@ void SortingSystem<T>::countSort() {
     cout << "Sorting using count Sort..." << endl;
     cout << "Initial Data: ";
 
-    int maxNumber = 0;
+    int maxNumber = data[0];
 
     for (int i = 0; i < Size; i++) {
         if (data[i] > maxNumber) maxNumber = data[i];
@@ -539,7 +539,7 @@ void SortingSystem<T>::countSort() {
     }
     cout << endl << endl;
 
-    int* sortedData = new int[Size]();
+    int* sortedData = new int[Size];
 
     cout << "Step 4: Placing Elements in Sorted Order" << endl;
     for (int i = Size - 1; i >= 0; i--) {
@@ -548,7 +548,7 @@ void SortingSystem<T>::countSort() {
 
         cout << "Placed " << data[i] << " -> ";
         for (int j = 0; j < Size; j++) {
-            if (sortedData[j] == 0) cout << "_ ";
+            if (sortedData[j] == 0 && data[i]!=0) cout << "_ ";
             else cout << sortedData[j] << " ";
         }
         cout << endl;
