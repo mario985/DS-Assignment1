@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <limits>
+#include <sstream>
 using namespace std;
 
 template <typename T>
@@ -60,29 +61,47 @@ void StatisticalCalculation<T>::ReadFile(const string& filename) {
         cerr << "Error opening file!" << endl;
         return;
     }
-    T val;
-    size = 0;
-    while(file >> val){
-        size++;
-    }
-    // here file pointer is at te end of the file so we must move it back to the beginning
-    file.clear();
-    // we move the pointer to the file back to the beginning so we can read the file again
-    file.seekg(0, ios::beg);
-    delete []data;
-    data = new T[size];
-    cout << endl;
-    for (int i = 0; i < size; i++) {
-        if (!(file >> data[i])) {
-            cerr << "Error reading data from file!" << endl;
-            return;
+    string line;
+    int test = 1;
+    // reads one line at a time
+    while(getline(file,line)){
+        // split the line into values
+        stringstream ss(line);
+        T* temp = new T[1000];
+        int count = 0 ;
+        T value;
+        // read the values from the current line into temp
+        while(ss >> value){
+            temp[count++] = value;
         }
+        if (count == 0) {
+            delete[] temp;
+            continue;
+        }
+
+        delete[] data;
+        size = count;
+        data = new T[size];
+        for (int i = 0; i < size; ++i) {
+            data[i] = temp[i];
+        }
+        delete[] temp;
+
+        cout << "\n----- Test Case #" << test++ << " -----\n";
+        cout << "Original Data: ";
+        displayArray();
+
+        sort();
+        cout << "Sorted Data: ";
+        displayArray();
+
+        cout << "Median: " << findMedian() << endl;
+        cout << "Minimum: " << findMin() << endl;
+        cout << "Maximum: " << findMax() << endl;
+        cout << "Mean: " << findMean() << endl;
+        cout << "Summation: " << findSummation() << endl;
     }
     file.close();
-
-    cout << "Size of data: " << size << endl;
-    cout << "Data: ";
-    displayArray();
 }
 
 template <typename T>
@@ -216,13 +235,6 @@ int main() {
 
         StatisticalCalculation<double> stat;
         stat.ReadFile("Testcases/testcases_problem5.txt");
-        stat.sort();
-        cout << "\nAll statistical calculations for file data:\n";
-        cout << "Median: " << stat.findMedian() << endl;
-        cout << "Minimum: " << stat.findMin() << endl;
-        cout << "Maximum: " << stat.findMax() << endl;
-        cout << "Mean: " << stat.findMean() << endl;
-        cout << "Summation: " << stat.findSummation() << endl;
     }
     else {
         // Manual processing
